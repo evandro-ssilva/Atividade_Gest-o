@@ -128,3 +128,27 @@ conn.commit()
 conn.close()
 print("Extração de dados concluída!")
 print("Tabelas e views criadas com sucesso na base de dados SQLite (limitado a 50 registos).")
+
+#teste de consulta à views  
+
+conn = sqlite3.connect('base_suicidios.db')
+cursor = conn.cursor() 
+print("Exemplo de consulta à view vw_idade_sexo_estado:")
+cursor.execute('SELECT * FROM vw_idade_sexo_estado LIMIT 5')        
+resultados = cursor.fetchall()
+for linha in resultados:
+    print(linha)        
+conn.close()
+
+#teste de consulta à views maior numero de casos por estado
+
+conn = sqlite3.connect('base_suicidios.db')
+cursor = conn.cursor()
+print("Exemplo de consulta à view vw_top10_estados_casos:")
+cursor.execute('SELECT * FROM vw_top10_estados_casos')
+resultados = cursor.fetchall()
+for linha in resultados:
+    print(linha)
+conn.close()
+
+
