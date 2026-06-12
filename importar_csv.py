@@ -2,9 +2,10 @@ import sqlite3
 import pandas as pd
 import numpy as np
 
-# Este script lê os primeiros 50 registos do ficheiro CSV.
-print("A ler os primeiros 50 registos do CSV...")
-df = pd.read_csv('suicidios_2010_a_2019.csv', low_memory=False, nrows=50)
+# Este script lê os primeiros 50 registos do ficheiro CSV e depois sorteia 50 linhas aleatórias para processamento, garantindo que o processo é rápido e eficiente para testes iniciais. O script cria uma base de dados SQLite, define as tabelas e views necessárias, e insere os dados processados. No final, são feitas consultas de exemplo às views criadas para verificar os resultados.
+print("lendo os registros do csv")
+df_completo = pd.read_csv('suicidios_2010_a_2019.csv', low_memory=False)
+df = df_completo.sample(n=50, random_state=42)
 
 # Calcula a idade dos registos, tratando os erros de data.
 print("A calcular a idade a partir das datas de nascimento e óbito...")
@@ -140,15 +141,15 @@ for linha in resultados:
     print(linha)        
 conn.close()
 
-#teste de consulta à views maior numero de casos por estado
-
+#teste de consulta à views maior numero de casos por estado mostrar os 10 primeiros estados com mais casos de suicídio
 conn = sqlite3.connect('base_suicidios.db')
-cursor = conn.cursor()
+cursor = conn.cursor()      
 print("Exemplo de consulta à view vw_top10_estados_casos:")
-cursor.execute('SELECT * FROM vw_top10_estados_casos')
+cursor.execute('SELECT * FROM vw_top10_estados_casos')  
 resultados = cursor.fetchall()
 for linha in resultados:
     print(linha)
 conn.close()
+
 
 
